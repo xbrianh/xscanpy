@@ -1,0 +1,13 @@
+#!/bin/bash
+set -euo pipefail
+wid=$(docker ps -a --latest --filter "name=${XSCANPY_CONTAINER_NAME}" --format="{{.ID}}")
+if [[ -z $wid ]]; then
+    # docker pull ${XSCANPY_DOCKER_REPO}/${XSCANPY_IMAGE_NAME}
+    wid=$(docker run \
+          --mount type=bind,source=${XSCANPY_HOME}/shared,target=/home/${XSCANPY_USER}/shared \
+          --name ${XSCANPY_CONTAINER_NAME} \
+          -it -d \
+          ${XSCANPY_IMAGE_NAME})
+fi
+docker start ${wid} || echo
+docker exec -it $wid /bin/bash
