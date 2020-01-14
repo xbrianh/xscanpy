@@ -4,10 +4,13 @@ wid=$(docker ps -a --latest --filter "name=${XSCANPY_CONTAINER_NAME}" --format="
 if [[ -z $wid ]]; then
     # docker pull ${XSCANPY_DOCKER_REPO}/${XSCANPY_IMAGE_NAME}
     wid=$(docker run \
-          --mount type=bind,source=${XSCANPY_HOME}/shared,target=/home/${XSCANPY_USER}/shared \
+          --mount type=bind,source=${XSCANPY_HOME}/mount,target=/home/${XSCANPY_USER}/mount \
           --name ${XSCANPY_CONTAINER_NAME} \
           -it -d \
           ${XSCANPY_IMAGE_NAME})
+    echo "Started new container ${wid}"
+else
+    echo "Logging into existing container ${wid}"
 fi
 docker start ${wid} || echo
 docker exec -it $wid /bin/bash

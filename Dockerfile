@@ -20,6 +20,7 @@ RUN apt-get update --quiet \
 	    zip \
         unzip \
         screen \
+        sudo \
         wget
 
 # Python
@@ -27,6 +28,12 @@ RUN apt-get install --assume-yes --no-install-recommends \
         python3.8-dev \
         python3-pip \
     && update-alternatives --install /usr/local/bin/python3 python3 /usr/bin/python3.8 1
+
+# CellBrowser
+RUN pip3 install setuptools \
+    && pip3 install wheel \
+    && pip3 install scanpy \
+    && pip3 install cellbrowser
 
 # Address locale problem, see "Python 3 Surrogate Handling":
 # http://click.pocoo.org/5/python3/
