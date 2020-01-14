@@ -1,0 +1,10 @@
+# Resolve the location of this file and set DSS_HOME to the root
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ] ; do SOURCE="$(readlink "$SOURCE")"; done
+export XSCANPY_HOME="$(cd -P "$(dirname "$SOURCE")" && pwd)"
+
+set -a
+XSCANPY_USER="xscanpy"
+XSCANPY_IMAGE_NAME="xbrianh/xscanpy"
+XSCANPY_CONTAINER_NAME="xscanpy"
+set +a

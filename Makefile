@@ -1,12 +1,14 @@
-IMAGE_NAME="scanpy-image"
+include common.mk
 
 all: image
 
 image:
-	docker build -f Dockerfile -t $(IMAGE_NAME) .
+	docker build -f ${XSCANPY_HOME}/Dockerfile \
+	--build-arg XSCANPY_USER \
+	-t $(XSCANPY_IMAGE_NAME) .
 
 publish: image
-	docker push $(IMAGE_NAME)
+	docker push $(XSCANPY_IMAGE_NAME)
 
 prune:
 	docker container prune -f
