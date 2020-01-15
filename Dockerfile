@@ -7,6 +7,7 @@ RUN apt-get update --quiet \
         build-essential \
         ca-certificates \
         make \
+        cmake \
         moreutils \
         zlib1g-dev \
         gnupg \
@@ -21,19 +22,24 @@ RUN apt-get update --quiet \
         unzip \
         screen \
         sudo \
-        wget
+        wget \
+        \
+        # igraph dependencies
+        libxml2 \
+        libxml2-dev \
+        zlib1g-dev \
+        bison \
+        flex
 
 # Python
 RUN apt-get install --assume-yes --no-install-recommends \
-        python3.8-dev \
+        python3.7-dev \
         python3-pip \
-    && update-alternatives --install /usr/local/bin/python3 python3 /usr/bin/python3.8 1
+    && python3.7 -m pip install --upgrade pip setuptools wheel \
+    && update-alternatives --install /usr/bin/python3 python /usr/bin/python3.7 1
 
 # CellBrowser
-RUN pip3 install setuptools \
-    && pip3 install wheel \
-    && pip3 install scanpy \
-    && pip3 install cellbrowser
+RUN pip3 install scanpy MulticoreTSNE python-igraph cellbrowser louvain
 
 # Address locale problem, see "Python 3 Surrogate Handling":
 # http://click.pocoo.org/5/python3/
