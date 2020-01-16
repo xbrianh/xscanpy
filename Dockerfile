@@ -53,4 +53,8 @@ RUN bash -c "echo '${XSCANPY_USER} ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers"
 USER ${XSCANPY_USER}
 WORKDIR /home/${XSCANPY_USER}
 ENV PATH /home/${XSCANPY_USER}/bin:${PATH}
-RUN mkdir -p /home/${XSCANPY_USER}/bin
+COPY files/cbScanpyHCA.sh /home/${XSCANPY_USER}
+COPY files/run_browser.sh /home/${XSCANPY_USER}
+
+# Apply hotpatch to cellbrowser to make var/obs names unique during cbScanpy
+COPY files/cellbrowser.py /usr/local/lib/python3.7/dist-packages/cellbrowser/cellbrowser.py
